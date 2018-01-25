@@ -5,7 +5,7 @@ import scraperwiki
 import lxml.html
 #
 # # Read in a page
-html = scraperwiki.scrape("https://www.facebook.com/amelia.c.webb/friends?pnref=lhc")
+html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia")
 
 record = {}
 #
