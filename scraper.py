@@ -14,9 +14,9 @@ for url in urllist:
   addresses = root.cssselect("li p:nth-child(3)")
   
   for i in names:
-    print "Company using my name:", i.text_content()
+    print "What's your name?", i.text_content()
   for i in addresses:
-    print "I will steal this property:", i.text_content()    
+    print "Where do you live?", i.text_content()    
  
   
   
