@@ -5,9 +5,22 @@ import scraperwiki
 import lxml.html
 #
 # # Read in a page
-For
-  html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia")
-  html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia&page=2")
+urllist = ["https://beta.companieshouse.gov.uk/search?q=Amelia&page=2","https://beta.companieshouse.gov.uk/search?q=Amelia&page=3"]
+#need to store the list of URLS as a variable (list) then you need to loop through
+for url in urllist: 
+  html = scraperwiki.scrape(url)
+  root = lxml.html.fromstring(html)
+  names = root.cssselect("li h3 a")
+  addresses = root.cssselect("li p:nth-child(3)")
+  
+  for i in names:
+    print i.text
+    
+ 
+  
+  
+
+html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia")
 
 record = {}
 #
