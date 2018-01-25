@@ -14,13 +14,13 @@ for url in urllist:
   addresses = root.cssselect("li p:nth-child(3)")
   
   for i in names:
-    print "What's your name?", i.text_content()
+    print "Name?", i.text_content()
   for i in addresses:
-    print "Where do you live?", i.text_content()    
+    print "Live?", i.text_content()    
  
   
   
-
+#create a range, range(1,10); assign it to a variable, makes a list; eg pring "inserts url"+str(i) - 
 html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend")
 
 record = {}
