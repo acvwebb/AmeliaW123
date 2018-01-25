@@ -11,9 +11,9 @@ record = {}
 #
 # # Find something on the page using css selectors
 root = lxml.html.fromstring(html)
-names = root.cssselect("body div a href")
+names = root.cssselect("//*[@id="results"]/li[1]/h3/a")
 for name in names: 
-  #print name.text
+  print name.text
   print name.attrib['href']
   record['link'] = name.attrib['href'] 
   print record
