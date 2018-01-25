@@ -5,7 +5,7 @@ import scraperwiki
 import lxml.html
 #
 # # Read in a page
-urllist = ["https://beta.companieshouse.gov.uk/search?q=Amelia&page=2","https://beta.companieshouse.gov.uk/search?q=Amelia&page=3","https://beta.companieshouse.gov.uk/search?q=Amelia&page=4","https://beta.companieshouse.gov.uk/search?q=Amelia&page=5", "https://beta.companieshouse.gov.uk/search?q=Amelia&page=6"]
+urllist = ["https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend&page=2","https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend&page=3","https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend&page=4","https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend&page=5", "https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend&page=6"]
 #need to store the list of URLS as a variable (list) then you need to loop through
 for url in urllist: 
   html = scraperwiki.scrape(url)
@@ -21,7 +21,7 @@ for url in urllist:
   
   
 
-html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia")
+html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend")
 
 record = {}
 #
