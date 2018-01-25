@@ -14,7 +14,7 @@ for url in urllist:
   addresses = root.cssselect("li p:nth-child(3)")
   
   for i in names:
-    print "this is the name", i.text
+    print "this is the name", i.text_content()
     
  
   
