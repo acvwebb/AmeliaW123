@@ -5,7 +5,7 @@ import scraperwiki
 import lxml.html
 #
 # # Read in a page
-urllist = [""]
+urllist = ["https://beta.companieshouse.gov.uk/search/companies?q=apple"]
 #need to store the list of URLS as a variable (list) then you need to loop through
 for url in urllist: 
   html = scraperwiki.scrape(url)
