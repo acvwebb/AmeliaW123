@@ -8,7 +8,6 @@ import lxml.html
 #create a range, range(1,10); assign it to a variable, makes a list; eg pring "inserts url"+str(i) - 
 html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search/companies?q=apple" )
 
-record = {}
 #
 # # Find something on the page using css selectors
 root = lxml.html.fromstring(html)
