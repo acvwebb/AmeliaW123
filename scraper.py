@@ -3,25 +3,10 @@
 #lines 4 and 5 are the first two libraries that need to be imported 
 import scraperwiki
 import lxml.html
-#
-# # Read in a page
-urllist = ["https://beta.companieshouse.gov.uk/search/companies?q=apple"]
-#need to store the list of URLS as a variable (list) then you need to loop through
-for url in urllist: 
-  html = scraperwiki.scrape(url)
-  root = lxml.html.fromstring(html)
-  names = root.cssselect("li h3 a")
-  addresses = root.cssselect("li p:nth-child(3)")
-  
-  for i in names:
-    print "Name?", i.text_content()
-  for i in addresses:
-    print "Live?", i.text_content()    
- 
   
   
 #create a range, range(1,10); assign it to a variable, makes a list; eg pring "inserts url"+str(i) - 
-html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search?q=Amelia+Webb+Legend" )
+html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search/companies?q=apple" )
 
 record = {}
 #
