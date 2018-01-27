@@ -1,32 +1,63 @@
-# This is a template for a Python scraper on morph.io (https://morph.io)
-# including some code snippets below that you should find helpful
-#lines 4 and 5 are the first two libraries that need to be imported 
 import scraperwiki
 import lxml.html
-  
-  
-#create a range, range(1,10); assign it to a variable, makes a list; eg pring "inserts url"+str(i) - 
-html = scraperwiki.scrape("https://beta.companieshouse.gov.uk/search/companies?q=apple" )
+print "HELLO"
 
-#
-# # Find something on the page using css selectors
-root = lxml.html.fromstring(html)
-names = root.cssselect("li h3 a")
-for name in names: 
-  print name.text
-  print name.attrib['href']
-  record['link'] = name.attrib['href'] 
-  print record
-  scraperwiki.sqlite.save(unique_keys=['link'], data=record)
+starturl = 'http://www.nhs.uk/Service-Search/GP/Bradford/Results/4/-1.759/53.796/4/2541?distance=5000&ResultsOnPageValue=100&isNational=0'
 
-#Line 18 is adding extra information to our dictionary 
-# # Write out to the sqlite database using scraperwiki library
-#
-# # An arbitrary query against the database
-# scraperwiki.sql.select("* from data where 'name'='peter'")
+def scrapestaff(fullstafflink,starturl):
+    html = scraperwiki.scrape(fullstafflink)
+    root = lxml.html.fromstring(html)
+    id = 0
+    record = {}
+    record['resultspage'] = starturl
+    #div class="pad clear"
+    if root.cssselect('div."pad clear" h1'):
+        record['surgeryname'] = root.cssselect('div."pad clear" h1')[0].text
+#    record['tel'] = root.cssselect('div."pad clear" p')[0].text
+ #   record['address'] = root.cssselect('div."pad clear" p')[0].text_content()
+  #  record['website'] = root.cssselect('div."pad clear" a')[0].text
+    #grab any contents of <div class="panel staff-details gp-staff">
+    panels = root.cssselect('div."panel staff-details gp-staff"')
+    for panel in panels:
+        print "h4 text", panel.cssselect('h4')[0].text
+        record['name'] = panel.cssselect('h4')[0].text
+        record['URL'] = fullstafflink
+        id = id+1
+        record['ID within practice'] = id
+        if panel.cssselect('div."info-item" p'):
+            print "GMC No.", panel.cssselect('div."info-item" p')[0].text
+            record['GMC No'] = panel.cssselect('div."info-item" p')[0].text
+        else:
+            record['GMC No'] = "NO GMC NUMBER"
+        if panel.cssselect('div."staff-title pad" p em'):
+            record['Job title'] = panel.cssselect('div."staff-title pad" p em')[0].text
+        else:
+            record['Job title'] = "NO JOB TITLE"
+        print "RECORD", record
+        scraperwiki.sqlite.save(['URL', 'ID within practice'],record)
+    
 
-# You don't have to do things with the ScraperWiki and lxml libraries.
-# You can use whatever libraries you want: https://morph.io/documentation/python
-# All that matters is that your final data is written to an SQLite database
-# called "data.sqlite" in the current working directory which has at least a table
-# called "data".
+def scrapelinks(starturl):
+    html = scraperwiki.scrape(starturl)
+    root = lxml.html.fromstring(html)
+    #grab any contents of <th class="fctitle" ...>...<a href="
+    links = root.cssselect("th.fctitle a")
+    #loop through the resulting list
+    for link in links:
+        #grab the href= attribute, then replace 'Overview' in that URL with 'Staff'
+        stafflink = link.attrib.get('href').replace("Overview","Staff")
+        #add the nhs.uk base url so it's absolute not relative
+        fullstafflink = "http://www.nhs.uk"+stafflink
+        print "fullstafflink", fullstafflink
+        scrapestaff(fullstafflink,starturl)
+    #we could have repeated the process by following the next page link, e.g. <li class="next"><a href="
+    #but the next URL simply adds '&currentPage=2' to the end
+    #so instead we create a loop within which this scrapelinks function runs, on each page
+
+
+
+for num in range(77,102):
+    print num
+    print "scraping", starturl+"&currentPage="+str(num)
+    currentpage = starturl+"&currentPage="+str(num)
+    scrapelinks(currentpage)
